@@ -1,0 +1,17 @@
+So, we basically want to set up a stream to capture the user-ID of everybody that re-tweets @realDonaldTrump. Then we can pull the user-generated “location” variable from the profile of those UserIDs and the followers for each of those userIDs. 
+
+We were looking for historical data—basically who re-tweeted a few select tweets last spring.  For example, how could we capture the userID of the 19,000 that re-tweeted this: https://twitter.com/realdonaldtrump/status/1029745594540150784.  We are not interested in the replies, just the re-tweets.  If you have any ideas in this realm, please let me know. 
+
+1. I think there is a fairly direct method to fetch the first 100 user IDs belonging to users who have retweeted a particular tweet ( https://python-twitter.readthedocs.io/en/latest/twitter.html#twitter.api.Api.GetRetweeters ) in the past. These userIDs are associated with the first 100 retweets (chronologically ordered).
+
+2. I'm not sure if fetching just 100 RTs works for you. I guess not all of them would have geotags and some of them would be spam. I could look deeper into the documentation to see if we can get around this limit.
+
+3. Also, what is the preferred output format here? Do you want these tweets as a CSV file or something like that ?
+
+4. Do you want this fetching to happen periodically or on demand ?
+
+Yea, we are hoping to get all possible retweets of particular tweets, as we are pulling the location variable from the user’s (re-tweeters) profile, which only exists at the city level in a little over half of the tweets.
+The 100 re-tweets is a good backup and proof of concept, so we may do that as well while trying to get all the data.  We do want to include spam/bots/Russian trolls as they play a role in the information ecosystem.
+A CSV is preferred. 
+I’m not sure what you mean by periodically vs. on demand.  I was hoping to run the stream from my laptop, and start and stop it when needed. 
+ 
