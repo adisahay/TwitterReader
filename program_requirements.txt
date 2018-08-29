@@ -15,7 +15,18 @@ The 100 re-tweets is a good backup and proof of concept, so we may do that as we
 4. Do you want this fetching to happen periodically or on demand ?
 -- I’m not sure what you mean by periodically vs. on demand.  I was hoping to run the stream from my laptop, and start and stop it when needed.
 
+Edit on Aug 29, 2018
+====================
+Pre-requesites : Twitter Dev API Credentials (consumer_key,consumer_secret,access_token_key,access_token_secret)
 
- 
- 
- 
+Use Case 1:
+This script is run explicity by the user to get the output information about a list of tweetIds.
+
+Input - List of tweetIds
+Output - Export a csv with schema <twitterHandle, tweetId(from_input), retweeterHandle, retweeterLocation>
+
+Use Case 2:
+This is script is run by the user for specific twitter user(s). When the script is running, it would wait for new tweets from the input list of user(s). It woud get retweeters for live tweets for those specific user(s). Maybe have a Ctrl+C or some exit mechanism to stop the 'listening' mode and dump data in CSV. 
+
+Input - List of Twitter handles (usernames)
+Output - Export a csv with schema <twitterHandle(from_input), tweetId, retweeterHandle, retweeterLocation>
