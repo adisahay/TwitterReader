@@ -35,10 +35,17 @@ with open(filename, "w") as csvfile:
     retweeters = api.GetRetweeters(tweetId) # Fetch the retweeters for this tweet
 
     print ("Getting retweeters location to CSV file: " + filename)
+    count = 1
+    found = 0
     for user in list(retweeters):
         user_info = api.GetUser(user)
         # Filter out empty location values
         if user_info.location != "":
             writer.writerow([user_info.location])
+            found += 1
+        print("\r" + str(count * 100 // len(retweeters)) + "% Completed", end="", flush=True)
+        count += 1
 
-print ("Finished writing to CSV file.")
+print ("\nFinished writing to CSV file.")
+print ("Total number of retweeters: " + str(len(retweeters)))
+print ("Total number of locations found: " + str(found))
