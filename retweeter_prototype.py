@@ -29,7 +29,7 @@ tweetId = 1032804122330845184 # Replace the tweet ID value with the actual one
 
 with open(filename, "w") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["Locations"]) # Set the header row
+    writer.writerow(["Tweet IDs", "Retweeter Handles", "Locations"]) # Set the header row
 
     print ("Fetching retweeters for Tweet ID: " + str(tweetId))
     retweeters = api.GetRetweeters(tweetId) # Fetch the retweeters for this tweet
@@ -41,7 +41,7 @@ with open(filename, "w") as csvfile:
         user_info = api.GetUser(user)
         # Filter out empty location values
         if user_info.location != "":
-            writer.writerow([user_info.location])
+            writer.writerow([tweetId, user_info.screen_name, user_info.location])
             found += 1
         print("\r" + str(count * 100 // len(retweeters)) + "% Completed", end="", flush=True)
         count += 1
