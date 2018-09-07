@@ -25,27 +25,31 @@ api = twitter.Api(consumer_key="".join(consumer_key),
                 access_token_secret="".join(access_token_secret))
 
 # TODO Fetch a list of tweet ids and run the 'getRetweeters' for each of them
-tweetId = 1032804122330845184 # Replace the tweet ID value with the actual one
+tweetIdList = [1032804122330845184, 1036461028429651968, 1036459095883227139]
+statuses = api.GetStatuses(tweetIdList, include_entities=False, map=True)
 
 with open(filename, "w") as csvfile:
     writer = csv.writer(csvfile)
-    writer.writerow(["Tweet IDs", "Retweeter Handles", "Locations"]) # Set the header row
-
-    print ("Fetching retweeters for Tweet ID: " + str(tweetId))
-    retweeters = api.GetRetweeters(tweetId) # Fetch the retweeters for this tweet
-
-    print ("Getting retweeters location to CSV file: " + filename)
-    count = 1
+    writer.writerow(["Handles", "Tweet IDs", "Retweeter Handles", "Locations"]) # Set the header row
     found = 0
-    for user in list(retweeters):
-        user_info = api.GetUser(user)
-        # Filter out empty location values
-        if user_info.location != "":
-            writer.writerow([tweetId, user_info.screen_name, user_info.location])
-            found += 1
-        print("\r" + str(count * 100 // len(retweeters)) + "% Completed", end="", flush=True)
-        count += 1
+    totalCount = 0
+    for tweetId in tweetIdList:
+        print ("Fetching retweeters for Tweet ID: " + str(tweetId))
+        retweeters = api.GetRetweeters(tweetId) # Fetch the retweeters for this tweet
+
+        print ("Getting retweeters location to CSV file: " + filename)
+        count = 1
+        for user in list(retweeters):
+            user_info = api.GetUser(user)
+            # Filter out empty location values
+            if user_info.location != "":
+                writer.writerow([statuses[tweetId].AsDict()["user"]["screen_name"], tweetId, user_info.screen_name, user_info.location])
+                found += 1
+            print("\r" + str(count * 100 // len(retweeters)) + "% Completed", end="", flush=True)
+            count += 1
+        totalCount += (len(retweeters))
+        print ()
 
 print ("\nFinished writing to CSV file.")
-print ("Total number of retweeters: " + str(len(retweeters)))
+print ("Total number of retweeters: " + str(totalCount))
 print ("Total number of locations found: " + str(found))
