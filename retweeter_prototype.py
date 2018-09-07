@@ -9,15 +9,11 @@ access_token_key = "",
 access_token_secret = ""
 
 with open("input_twitter_api_credentials.csv") as credfile:
-    credentials = csv.reader(credfile, delimiter=",")
-    rownum = 0
-    for row in credentials:
-        if rownum == 1:
-            consumer_key = row[0],
-            consumer_secret = row[1],
-            access_token_key = row[2],
-            access_token_secret = row[3]
-        rownum += 1
+    credentials = list(csv.reader(credfile, delimiter=","))[1:2][0]
+    consumer_key = credentials[0]
+    consumer_secret = credentials[1]
+    access_token_key = credentials[2]
+    access_token_secret = credentials[3]
 
 api = twitter.Api(consumer_key="".join(consumer_key),
                 consumer_secret="".join(consumer_secret),
